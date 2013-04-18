@@ -25,9 +25,9 @@ Installation
 Dependencies
 ------------
 
-socketio
+pi-gpio
 
-
+socket.io
 
 Compatibility
 ------------
