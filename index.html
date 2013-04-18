@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<link type="image/gif" rel="shortcut icon" href="logo.gif"/>
+<head>
+	<title>IP Cam</title>
+	<meta name="apple-mobile-web-app-capable" content="yes" /> 
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<!--<script src="../js/jquery-1.7.2.min.js"></script>
+	<script src="/main.js"></script>-->
+	<style type="text/css">
+
+
+	button#overlay {
+		display: block;
+		z-index: 2;
+		background: #000;
+		position: fixed;
+		width: 100px;
+		height: 100px;
+		top: 0px;
+		left: 0px;
+		text-align: center;
+		opacity:1;
+	}
+	div#mjpg {
+		display: block;
+		z-index: 0;
+		background: #000;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		text-align: center;
+		opacity:1;	
+	}
+	</style>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io.connect('http://localhost');
+	socket.on('news', function (data) {
+			// console.log(data);
+			socket.emit('my other event',{ my: 'data' });
+		});
+	function fire (obj) {
+				// body...
+				console.log(obj);
+				socket.emit('my other event',obj);
+			}
+			// function updateSite(event) {
+	// 	window.applicationCache.swapCache();
+	// }
+	// window.applicationCache.addEventListener('updateready',
+	// 	updateSite, false);
+window.onresize = function() {
+	var img = document.getElementById('img');
+	var width = window.innerWidth*0.8;
+	var height = window.innerHeight*0.8;
+	if(width<height)
+	{
+		img.width = width;
+		img.height = (120/160)*width;
+	}
+	else
+	{
+		img.height = height;
+		img.width = (160/120)*height;
+	}
+}
+
+window.onload = function() {
+	var div = document.getElementById('mjpg');
+	var img = document.createElement("img");
+	img.src = "http://fishkingsin.no-ip.info/?action=stream";
+
+	img.id = "image_scr";
+	var width = window.innerWidth*0.5;
+	var height = window.innerHeight*0.5;
+	if(width<height)
+	{
+		img.width = width;
+		img.height = (120/160)*width;
+	}
+	else
+	{
+		img.height = height;
+		img.width = (160/120)*height;
+	}
+		//but feel free to raise it up to 8. Your client will appreciate
+		//that the program makes full use of his machine.
+		var orderlist = document.createElement("ol");
+		var li = document.createElement("li");
+		li.appendChild(img);
+		orderlist.appendChild(li);
+		
+		var button = document.createElement("button");
+		// button.id = "overlay";
+		button.innerHTML = "Reload"
+		button.onclick = function (){
+			location.reload();
+			console.log("button click");
+		};
+		li = document.createElement("li");
+		li.appendChild(button);
+		orderlist.appendChild(li);
+		
+			var button_ = document.createElement("button");
+			
+			button_.innerHTML = 'data0';
+			
+			button_.onclick = function (){fire('{ my: \'data0\' }');}
+			li = document.createElement("li");
+			li.appendChild(button_);
+			orderlist.appendChild(li);
+
+			button_ = document.createElement("button");
+			
+			button_.innerHTML = 'data1';
+			
+			button_.onclick = function (){fire('{ my: \'data1\' }');}
+			li = document.createElement("li");
+			li.appendChild(button_);
+			orderlist.appendChild(li);
+
+			button_ = document.createElement("button");
+			
+			button_.innerHTML = 'data2';
+			
+			button_.onclick = function (){fire('{ my: \'data2\' }');}
+			li = document.createElement("li");
+			li.appendChild(button_);
+			orderlist.appendChild(li);
+
+			button_ = document.createElement("button");
+			
+			button_.innerHTML = 'data3';
+			
+			button_.onclick = function (){fire('{ my: \'data3\' }');}
+			li = document.createElement("li");
+			li.appendChild(button_);
+			orderlist.appendChild(li);
+			
+			
+		
+		div.appendChild(orderlist);
+	}
+	</script>
+</head>
+<body>
+	<div id="mjpg">
+		<!-- <button onclick="fire({ my: 'data4' });">Reload</button> -->
+	</div>
+
+</body>
+</html>
